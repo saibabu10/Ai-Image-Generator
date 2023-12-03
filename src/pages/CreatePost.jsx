@@ -1,17 +1,20 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import {getRandomPrompt} from '../utils'
 import {download,preview} from '../assets'
 import { FormFieldComponent,LoaderComponent} from '../components'
 const CreatePost = () => {
     const navigate = useNavigate();
-    const [form, setform] = useState({
+    const [form, setForm] = useState({
         name:'',
         prompt:'',
-        phote:'',
+        photo:'',
     })
     const [generatingImg, setGeneratingImg] = useState(false)
     const [loading, setLoading] = useState(false);
+    useEffect(()=>{
+        console.log(form)
+    },[form])
     const generateImage = async() =>{
         if(form.prompt)
         {
@@ -42,11 +45,11 @@ const CreatePost = () => {
 
     }
     const handleChange = (e) =>{
-        setform({...form,[e.target.name]:e.target.value})
+        setForm({...form,[e.target.name]:e.target.value})
     }
     const handleSurpriseMe = () =>{
         const randomPrompt = getRandomPrompt(form.prompt)
-        setform({...form,prompt:randomPrompt})
+        setForm({...form,prompt:randomPrompt})
 
     }
   return (
@@ -62,23 +65,22 @@ const CreatePost = () => {
             type="text"
             name="name"
             placeholder="John Doe"
-             value={form.name} 
+             //value={form.name} 
              handleChange={handleChange}/>
             <FormFieldComponent 
             LabelName="Prompt" 
             type="text"
             name="prompt"
             placeholder="teddy bears shopping for groceries in Japan"
-             value={form.prompt} 
-             handleChange={handleChange}
+            value={form.prompt} 
+             handlesChange={handleChange}
              isSurpriseMe
              handleSurpriseMe={handleSurpriseMe}
              />
              <div className='relative bg-grey-50 border-grey-300 text-grey-900
              text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex 
              justify-center items-center'>
-                {form.photo ? (<img 
-                src={form.photo}
+                {form.photo ? (<img src={form.photo}
                 alt={form.prompt}
                 className='w-full h-full object-contain'/>
                 ):(
